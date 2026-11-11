@@ -1,0 +1,8 @@
+COMMENTI DIDATTICI IN ITALIANO
+
+Sono commentati i file C++ e GLSL del progetto e i loro metodi.
+Le dipendenze esterne (GLAD, GLFW, Dear ImGui) restano identiche agli originali.
+Il template Visual Studio e i filtri sono conservati.
+GLM va installato con NuGet come nel pacchetto iniziale.
+
+Nota: i commenti non costituiscono una verifica di compilazione su Visual Studio.

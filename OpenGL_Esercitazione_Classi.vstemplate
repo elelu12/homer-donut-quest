@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Version="3.0.0" Type="Project">
+  <TemplateData>
+    <Name>OpenGL Esercitazione Classi - Triangolo + GUI</Name>
+    <Description>OpenGL 3.3 con GLAD, GLFW e Dear ImGui inclusi; triangolo funzionante; GUI con colore sfondo e wireframe. GLM via NuGet.</Description>
+    <ProjectType>VC</ProjectType><LanguageTag>C++</LanguageTag><PlatformTag>Windows</PlatformTag><ProjectTypeTag>Desktop</ProjectTypeTag>
+    <SortOrder>1000</SortOrder><DefaultName>ProgettoOpenGL</DefaultName><CreateNewFolder>true</CreateNewFolder><ProvideDefaultName>true</ProvideDefaultName><PromptForSaveOnCreation>true</PromptForSaveOnCreation>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="OpenGL_Esercitazione.vcxproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="$projectname$.vcxproj.filters">OpenGL_Esercitazione.vcxproj.filters</ProjectItem>
+      <ProjectItem ReplaceParameters="false">main.cpp</ProjectItem><ProjectItem ReplaceParameters="false">MeshData.h</ProjectItem><ProjectItem ReplaceParameters="false">ShapeGenerator.h</ProjectItem><ProjectItem ReplaceParameters="false">ShapeGenerator.cpp</ProjectItem><ProjectItem ReplaceParameters="false">Geometry.h</ProjectItem><ProjectItem ReplaceParameters="false">Geometry.cpp</ProjectItem><ProjectItem ReplaceParameters="false">Scene.h</ProjectItem><ProjectItem ReplaceParameters="false">Scene.cpp</ProjectItem><ProjectItem ReplaceParameters="false">Renderer.h</ProjectItem><ProjectItem ReplaceParameters="false">Renderer.cpp</ProjectItem><ProjectItem ReplaceParameters="false">Gui.h</ProjectItem><ProjectItem ReplaceParameters="false">Gui.cpp</ProjectItem><ProjectItem ReplaceParameters="false">Input.h</ProjectItem><ProjectItem ReplaceParameters="false">Input.cpp</ProjectItem><ProjectItem ReplaceParameters="false">Shader.h</ProjectItem><ProjectItem ReplaceParameters="false">Shader.cpp</ProjectItem><ProjectItem ReplaceParameters="false">ShaderMaker.h</ProjectItem><ProjectItem ReplaceParameters="false">ShaderMaker.cpp</ProjectItem><ProjectItem ReplaceParameters="false">README_PRIMA_DI_INIZIARE.txt</ProjectItem>
+      <Folder Name="shader" TargetFolderName="shader">
+        <ProjectItem ReplaceParameters="false">vertexshaderC.glsl</ProjectItem><ProjectItem ReplaceParameters="false">fragmentshaderC.glsl</ProjectItem>
+      </Folder>
+      <Folder Name="dependencies_GL_GLFW" TargetFolderName="dependencies_GL_GLFW">
+        <ProjectItem ReplaceParameters="false">glad.c</ProjectItem>
+        <Folder Name="include" TargetFolderName="include">
+          <Folder Name="glad" TargetFolderName="glad"><ProjectItem ReplaceParameters="false">glad.h</ProjectItem></Folder>
+          <Folder Name="KHR" TargetFolderName="KHR"><ProjectItem ReplaceParameters="false">khrplatform.h</ProjectItem></Folder>
+          <Folder Name="GLFW" TargetFolderName="GLFW"><ProjectItem ReplaceParameters="false">glfw3.h</ProjectItem><ProjectItem ReplaceParameters="false">glfw3native.h</ProjectItem></Folder>
+        </Folder>
+        <Folder Name="lib" TargetFolderName="lib"><ProjectItem ReplaceParameters="false">glfw3.lib</ProjectItem></Folder>
+        <Folder Name="ImGui" TargetFolderName="ImGui">
+          <ProjectItem ReplaceParameters="false">imconfig.h</ProjectItem><ProjectItem ReplaceParameters="false">imgui.cpp</ProjectItem><ProjectItem ReplaceParameters="false">imgui.h</ProjectItem><ProjectItem ReplaceParameters="false">imgui_demo.cpp</ProjectItem><ProjectItem ReplaceParameters="false">imgui_draw.cpp</ProjectItem><ProjectItem ReplaceParameters="false">imgui_impl_glfw.cpp</ProjectItem><ProjectItem ReplaceParameters="false">imgui_impl_glfw.h</ProjectItem><ProjectItem ReplaceParameters="false">imgui_impl_opengl3.cpp</ProjectItem><ProjectItem ReplaceParameters="false">imgui_impl_opengl3.h</ProjectItem><ProjectItem ReplaceParameters="false">imgui_impl_opengl3_loader.h</ProjectItem><ProjectItem ReplaceParameters="false">imgui_internal.h</ProjectItem><ProjectItem ReplaceParameters="false">imgui_tables.cpp</ProjectItem><ProjectItem ReplaceParameters="false">imgui_widgets.cpp</ProjectItem><ProjectItem ReplaceParameters="false">imstb_rectpack.h</ProjectItem><ProjectItem ReplaceParameters="false">imstb_textedit.h</ProjectItem><ProjectItem ReplaceParameters="false">imstb_truetype.h</ProjectItem>
+        </Folder>
+      </Folder>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

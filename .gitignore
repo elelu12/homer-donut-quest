@@ -1,0 +1,10 @@
+.DS_Store
+build/
+app
+*.o
+*.d
+imgui.ini
+.vs/
+bin/
+obj/
+*.user
