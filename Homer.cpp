@@ -16,7 +16,10 @@ void Homer::create(Scene& scene)
     const glm::vec4 dark(0.12f, 0.11f, 0.12f, 1.0f);
     const glm::vec4 beard(0.72f, 0.55f, 0.34f, 1.0f);
 
-    // Una sola geometria per colore, riutilizzata dalle parti con matrici diverse.
+    // funzione lambda 
+    // diamo alla lambda il permesso di usare per riferimento le variabili esterne
+    // passiamo il parametro che è il colore , che non puo essere modificato
+    // restituisce l'indice della geometria all'interno della scena
     auto ellipse = [&](const glm::vec4& color) {
         return scene.add(ShapeGenerator::createCircle(0, 0, 1, 1, 48, color, color));
     };
@@ -26,12 +29,13 @@ void Homer::create(Scene& scene)
     const auto outline = ellipse(dark);
     const auto muzzle = ellipse(beard);
 
-    // Disegno dal fondo verso il primo piano, in coordinate locali.
+    // funzione lambda
+    // in modo da riusare le ellipse create prima
+    // diamo una ellipse e la sua posizione orizzontale, verticale, scala orizzontale, scala verticale, rotazione
     auto part = [&](std::size_t mesh, float x, float y, float sx, float sy, float angle = 0.0f) {
         m_parts.push_back({mesh, {x, y}, {sx, sy}, angle});
     };
-    // Silhouette ispirata al riferimento: figura alta, pancia sporgente
-    // a sinistra e un braccio alzato. Le coordinate sono locali a Homer.
+    // posizioniamo tutte le parti
     part(pants, -0.105f, -0.44f, 0.105f, 0.25f);       // gambe
     part(pants,  0.105f, -0.44f, 0.105f, 0.25f);
     part(outline, -0.14f, -0.67f, 0.15f, 0.055f);      // scarpe
@@ -55,12 +59,13 @@ void Homer::create(Scene& scene)
     part(shirt,  0.025f, 0.43f, 0.065f, 0.052f);
     part(outline, -0.105f, 0.43f, 0.011f, 0.016f);    // pupille
     part(outline,  0.005f, 0.43f, 0.011f, 0.016f);
-    // M continua: ogni segmento unisce esattamente due vertici successivi.
+
+    // per i capelli usiamo elissi molto strette (sembrano segmenti)
     auto hairSegment = [&](glm::vec2 a, glm::vec2 b) {
-        const glm::vec2 delta = b - a;
-        const glm::vec2 middle = (a + b) * 0.5f;
+        const glm::vec2 delta = b - a; // delta è il vettore che va dal primo punto al secondo
+        const glm::vec2 middle = (a + b) * 0.5f; // middle è il punto a metà di un segmento
         part(outline, middle.x, middle.y, 0.006f, glm::length(delta) * 0.5f,
-             std::atan2(-delta.x, delta.y));
+            std::atan2(-delta.x, delta.y)); // creiamo una parte scusa, centrata nel punto medio, molto stretta, di lunghezza quanto serve per collegare il primo e il secondo punto
     };
     hairSegment({0.085f, 0.35f}, {0.085f, 0.41f});
     hairSegment({0.085f, 0.41f}, {0.106f, 0.385f});
@@ -70,11 +75,9 @@ void Homer::create(Scene& scene)
     part(outline, 0.035f, 0.64f, 0.065f, 0.012f, -0.35f);
 }
 
-void Homer::draw(const Scene& scene, const Renderer& renderer, const Shader& shader,
-                 const glm::mat4& transform) const
+void Homer::draw(const Scene& scene, const Renderer& renderer, const Shader& shader, const glm::mat4& transform) const
 {
     // parent * traslazione * rotazione * scala: la trasformazione comune
-    // agisce sull'intero personaggio, quelle locali compongono le sue parti.
     const GLint modelLocation = glGetUniformLocation(shader.id(), "model");
     for (const Part& part : m_parts)
     {
