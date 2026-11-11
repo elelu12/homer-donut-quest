@@ -1,10 +1,9 @@
 # Interactive 2D World — base del progetto
 
-Repository locale inizializzata a partire da `laboratori/Laboratorio 8 Ottobre 2026-20261008/OpenGL_CLASSI`. È un punto di partenza didattico: la scena mostra una prima versione di Homer composta da ellissi; **non è ancora il progetto d'esame**. I file originali dei laboratori restano nella cartella superiore.
-
+Repository locale inizializzata a partire da `laboratori/Laboratorio 8 Ottobre 2026-20261008/OpenGL_CLASSI`.
 ## Avvio su Mac
 
-Servono Xcode Command Line Tools, GLFW e GLM (ad esempio installati con Homebrew). Il Makefile cerca Homebrew in `/opt/homebrew`: su Mac Intel potrebbe essere necessario adattare i percorsi a `/usr/local`. Dalla cartella di questo README:
+Servono Xcode Command Line Tools, GLFW e GLM. Il Makefile cerca Homebrew in `/opt/homebrew`: su Mac Intel potrebbe essere necessario adattare i percorsi a `/usr/local`. Dalla cartella di questo README:
 
 ```sh
 make
