@@ -16,6 +16,7 @@
 #include "Input.h"
 #include "Homer.h"
 #include "Donut.h"
+#include "Beer.h"
 #include <glm/gtc/matrix_transform.hpp>
 
 // Avvio del programma. Le risorse OpenGL vanno create solo dopo che esiste un contesto corrente.
@@ -121,6 +122,8 @@ int main()
     homer.create(scene);
     Donut donut;
     donut.create(scene);
+    Beer beer;
+    beer.create(scene);
 
     // BLENDING
     glEnable(GL_BLEND);
@@ -146,6 +149,9 @@ int main()
         glm::mat4 donutModel = glm::translate(glm::mat4(1.0f), glm::vec3(0.65f, 0.35f, 0));
         donutModel = glm::scale(donutModel, glm::vec3(0.22f, 0.22f, 1));
         donut.draw(scene, renderer, shader, donutModel);
+        glm::mat4 beerModel = glm::translate(glm::mat4(1.0f), glm::vec3(0.65f, -0.30f, 0));
+        beerModel = glm::scale(beerModel, glm::vec3(0.30f, 0.275f, 1));
+        beer.draw(scene, renderer, shader, beerModel);
 
         // ImGui va disegnata in modalita' fill.
         renderer.setWireframe(false);

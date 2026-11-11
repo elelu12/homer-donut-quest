@@ -50,6 +50,7 @@ void Donut::create(Scene& scene)
         {0.30f, 0.76f, 0.49f, 1}, {1, 0.96f, 0.89f, 1},
         {0.90f, 0.60f, 0.64f, 1}
     };
+    
     // Piccole ellissi ruotate, triangolate come i cerchi del laboratorio.
     auto sprinkle = [&](glm::vec2 center, float angle, float sx, float sy, glm::vec4 color) {
         auto point = [&](float t) {
@@ -60,16 +61,15 @@ void Donut::create(Scene& scene)
         for (int j = 0; j < 12; ++j)
             triangle(center, point(2*pi*j/12), point(2*pi*(j+1)/12), color);
     };
-    // Distribuzione a due corone sfalsate, con piccole variazioni deterministiche.
-    // I centri restano lontani sia dal foro sia dal bordo della glassa.
+
     for (int i = 0; i < 34; ++i) {
         int row = i / 17;
         int index = i % 17;
-        float a = 2*pi*(index + row*0.47f)/17 + 0.035f*std::sin(i*3.1f);
-        float radius = (row == 0 ? 0.53f : 0.77f) + 0.015f*std::sin(i*2.3f);
+        float a = 2*pi*(index + row*0.47f)/17 + 0.035f*std::sin(i*3.1f); // come posizionare gli zuccherini (2 corone sfalsate)
+        float radius = (row == 0 ? 0.53f : 0.77f) + 0.015f*std::sin(i*2.3f); // distanza dal centro
         float angle = i * 2.17f;
-        float length = 0.049f + 0.008f*std::sin(i*1.7f);
-        glm::vec2 center = radius * glm::vec2(std::cos(a), std::sin(a));
+        float length = 0.049f + 0.008f*std::sin(i*1.7f); // per non fare tutti gli zuccherini uguali
+        glm::vec2 center = radius * glm::vec2(std::cos(a), std::sin(a)); // trasformiamo raggio e anfolo in coordinate usando la formula delle coordinate polari
         sprinkle(center, angle, length + 0.008f, 0.020f, ink);
         sprinkle(center, angle, length, 0.011f, colors[i % 5]);
     }
