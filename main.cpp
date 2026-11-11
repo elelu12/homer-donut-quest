@@ -15,6 +15,8 @@
 #include "Gui.h"
 #include "Input.h"
 #include "Homer.h"
+#include "Donut.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 // Avvio del programma. Le risorse OpenGL vanno create solo dopo che esiste un contesto corrente.
 int main()
@@ -117,6 +119,8 @@ int main()
     // Personaggio composto: le parti condividono geometrie e usano matrici locali.
     Homer homer;
     homer.create(scene);
+    Donut donut;
+    donut.create(scene);
 
     // BLENDING
     glEnable(GL_BLEND);
@@ -139,6 +143,9 @@ int main()
         shader.use();
         /* Il Renderer visita tutte le Geometry e ne richiama draw(). */
     homer.draw(scene, renderer, shader, glm::mat4(1.0f));
+        glm::mat4 donutModel = glm::translate(glm::mat4(1.0f), glm::vec3(0.65f, 0.35f, 0));
+        donutModel = glm::scale(donutModel, glm::vec3(0.22f, 0.22f, 1));
+        donut.draw(scene, renderer, shader, donutModel);
 
         // ImGui va disegnata in modalita' fill.
         renderer.setWireframe(false);
