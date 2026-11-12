@@ -23,7 +23,7 @@ public:
     void beginFrame();
     // Definisce finestra, selettore colore e checkbox.
     void draw();
-    bool drawCollection(int collected, int total);
+    bool drawCollection(int collected, int total, bool hit, int score, bool beerCollected);
     // Disegna la GUI sopra la scena OpenGL.
     void render();
     // Rilascia le risorse ImGui prima di distruggere il contesto.

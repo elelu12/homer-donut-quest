@@ -20,6 +20,7 @@
 #include <algorithm>
 #include "Donut.h"
 #include "Beer.h"
+#include "Broccoli.h"
 #include <glm/gtc/matrix_transform.hpp>
 
 //Immagina di voler allestire una mostra d'arte:
@@ -136,6 +137,8 @@ int main()
     donut.create(scene);
     Beer beer;
     beer.create(scene);
+    Broccoli broccoli;
+    broccoli.create(scene);
 
     // BLENDING
     glEnable(GL_BLEND);
@@ -161,7 +164,7 @@ int main()
         if (!ImGui::GetIO().WantCaptureKeyboard && glfwGetWindowAttrib(window, GLFW_FOCUSED))
             direction = Input::movementDirection(window);
         game.update(direction, deltaTime);
-        if (gui.drawCollection(game.collectedCount(), game.totalCount())) game.reset();
+        if (gui.drawCollection(game.collectedCount(), game.totalCount(), game.hitFeedback(), game.score(), game.beerCollected())) game.reset();
 
         renderer.beginFrame(gui.clearColor());
         renderer.setWireframe(gui.wireframe());
@@ -177,9 +180,15 @@ int main()
             donutModel = glm::scale(donutModel, glm::vec3(instance.radius, instance.radius, 1));
             donut.draw(scene, renderer, shader, donutModel);
         }
-        glm::mat4 beerModel = glm::translate(glm::mat4(1.0f), glm::vec3(0.65f, -0.30f, 0));
-        beerModel = glm::scale(beerModel, glm::vec3(0.30f, 0.275f, 1));
-        beer.draw(scene, renderer, shader, beerModel);
+        if (!game.beerCollected()) {
+            glm::mat4 beerModel = glm::translate(glm::mat4(1.0f), glm::vec3(game.beerPosition(), 0));
+            beerModel = glm::scale(beerModel, glm::vec3(game.beerScale(), 1));
+            beer.draw(scene, renderer, shader, beerModel);
+        }
+
+        glm::mat4 broccoliModel = glm::translate(glm::mat4(1), glm::vec3(game.broccoliPosition(),0));
+        broccoliModel = glm::scale(broccoliModel, glm::vec3(game.broccoliScale(),game.broccoliScale(),1));
+        broccoli.draw(scene, renderer, shader, broccoliModel);
 
         // ImGui va disegnata in modalita' fill.
         renderer.setWireframe(false);
