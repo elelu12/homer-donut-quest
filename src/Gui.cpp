@@ -66,3 +66,17 @@ void Gui::shutdown()
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 }
+
+// Restituisce l'azione richiesta; il pannello non modifica direttamente il gioco.
+bool Gui::drawCollection(int collected)
+{
+    ImGui::SetNextWindowPos(ImVec2(12, 12), ImGuiCond_FirstUseEver);
+    ImGui::Begin("Homer - raccolta", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+    ImGui::Text("Ciambelle: %d / 1", collected);
+    ImGui::Text("Punti: %d", collected);
+    ImGui::TextUnformatted("Muoviti con WASD o le frecce");
+    if (collected) ImGui::TextUnformatted("Ciambella raccolta!");
+    bool reset = ImGui::Button("Ricomincia");
+    ImGui::End();
+    return reset;
+}

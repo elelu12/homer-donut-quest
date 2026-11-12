@@ -8,6 +8,18 @@
 
 namespace Input
 {
+    // Lettura continua: non dipende dalla ripetizione automatica dei tasti.
+    glm::vec2 movementDirection(GLFWwindow* window)
+    {
+        auto down = [&](int key) { return glfwGetKey(window, key) == GLFW_PRESS; };
+        glm::vec2 direction(0);
+        if (down(GLFW_KEY_D) || down(GLFW_KEY_RIGHT)) direction.x += 1;
+        if (down(GLFW_KEY_A) || down(GLFW_KEY_LEFT))  direction.x -= 1;
+        if (down(GLFW_KEY_W) || down(GLFW_KEY_UP))    direction.y += 1;
+        if (down(GLFW_KEY_S) || down(GLFW_KEY_DOWN))  direction.y -= 1;
+        return direction;
+    }
+
     double mouseX = 0.0;
     double mouseY = 0.0;
 

@@ -7,11 +7,14 @@
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 // Namespace: raggruppa funzioni e variabili di input senza creare una classe.
 namespace Input
 {
     // extern: la variabile e' definita in Input.cpp.
+    glm::vec2 movementDirection(GLFWwindow* window);
+
     extern double mouseX;
     // Coordinata verticale del cursore, definita in Input.cpp.
     extern double mouseY;

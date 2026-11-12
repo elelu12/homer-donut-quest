@@ -15,6 +15,9 @@
 #include "Gui.h"
 #include "Input.h"
 #include "Homer.h"
+#include "Game.h"
+#include "imgui.h"
+#include <algorithm>
 #include "Donut.h"
 #include "Beer.h"
 #include <glm/gtc/matrix_transform.hpp>
@@ -118,6 +121,7 @@ int main()
 
 
     // Personaggio composto: le parti condividono geometrie e usano matrici locali.
+    Game game;
     Homer homer;
     homer.create(scene);
     Donut donut;
@@ -134,21 +138,34 @@ int main()
     // ========================================================================
 
     // Ciclo dei frame: aggiorna i controlli, pulisce lo schermo, disegna la scena e presenta il risultato.
+    double previousTime = glfwGetTime();
     while (!glfwWindowShouldClose(window))
     {
+        glfwPollEvents();
+        const double now = glfwGetTime();
+        // Limite per evitare salti dopo una pausa del debugger o un blocco.
+        const float deltaTime = static_cast<float>(std::min(now - previousTime, 0.05));
+        previousTime = now;
         /* Inizia il frame dell interfaccia prima di costruire i widget. */
     gui.beginFrame();
         gui.draw();
+        glm::vec2 direction(0);
+        if (!ImGui::GetIO().WantCaptureKeyboard && glfwGetWindowAttrib(window, GLFW_FOCUSED))
+            direction = Input::movementDirection(window);
+        game.update(direction, deltaTime);
+        if (gui.drawCollection(game.collectedCount())) game.reset();
 
         renderer.beginFrame(gui.clearColor());
         renderer.setWireframe(gui.wireframe());
 
         shader.use();
         /* Il Renderer visita tutte le Geometry e ne richiama draw(). */
-    homer.draw(scene, renderer, shader, glm::mat4(1.0f));
-        glm::mat4 donutModel = glm::translate(glm::mat4(1.0f), glm::vec3(0.65f, 0.35f, 0));
-        donutModel = glm::scale(donutModel, glm::vec3(0.22f, 0.22f, 1));
-        donut.draw(scene, renderer, shader, donutModel);
+    homer.draw(scene, renderer, shader, game.player().modelMatrix());
+        if (game.donutVisible()) {
+            glm::mat4 donutModel = glm::translate(glm::mat4(1.0f), glm::vec3(game.donutPosition(), 0));
+            donutModel = glm::scale(donutModel, glm::vec3(game.donutRadius(), game.donutRadius(), 1));
+            donut.draw(scene, renderer, shader, donutModel);
+        }
         glm::mat4 beerModel = glm::translate(glm::mat4(1.0f), glm::vec3(0.65f, -0.30f, 0));
         beerModel = glm::scale(beerModel, glm::vec3(0.30f, 0.275f, 1));
         beer.draw(scene, renderer, shader, beerModel);
@@ -159,7 +176,6 @@ int main()
     gui.render();
 
         glfwSwapBuffers(window);
-        glfwPollEvents();
     }
 
 

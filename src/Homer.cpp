@@ -12,7 +12,7 @@ void Homer::create(Scene& scene)
     m_parts.clear();
     const glm::vec4 yellow(1.0f, 0.80f, 0.05f, 1.0f);
     const glm::vec4 white(0.98f, 0.98f, 0.94f, 1.0f);
-    const glm::vec4 blue(0.25f, 0.48f, 0.72f, 1.0f);
+    const glm::vec4 blue(0.32f, 0.65f, 0.84f, 1.0f);
     const glm::vec4 dark(0.12f, 0.11f, 0.12f, 1.0f);
     const glm::vec4 beard(0.72f, 0.55f, 0.34f, 1.0f);
 
@@ -33,6 +33,10 @@ void Homer::create(Scene& scene)
     // in modo da riusare le ellipse create prima
     // diamo una ellipse e la sua posizione orizzontale, verticale, scala orizzontale, scala verticale, rotazione
     auto part = [&](std::size_t mesh, float x, float y, float sx, float sy, float angle = 0.0f) {
+        // Prima una sagoma scura appena più grande, poi il colore.
+        // Le parti già scure (pupille, scarpe, tratti) non hanno un secondo bordo.
+        if (mesh != outline)
+            m_parts.push_back({outline, {x, y}, {sx + 0.0045f, sy + 0.0045f}, angle});
         m_parts.push_back({mesh, {x, y}, {sx, sy}, angle});
     };
     // posizioniamo tutte le parti
@@ -44,16 +48,35 @@ void Homer::create(Scene& scene)
     part(skin, -0.30f, -0.30f, 0.075f, 0.07f);        // mano
     part(skin,  0.28f, -0.10f, 0.07f, 0.22f, 0.08f);  // braccio abbassato
     part(skin,  0.30f, -0.30f, 0.075f, 0.07f);        // mano
-    part(pants, 0.0f, -0.26f, 0.225f, 0.14f);         // pantaloni
+    // Vita dei pantaloni: un rettangolo raccorda le gambe, senza l'arco
+    // dell'ellisse che prima sembrava un secondo bordo sotto la camicia.
+    auto waist = [&](float left, float right, float top, float bottom,
+                     const glm::vec4& color) {
+        MeshData data;
+        data.positions = {{left,top,0}, {left,bottom,0}, {right,bottom,0},
+                          {left,top,0}, {right,bottom,0}, {right,top,0}};
+        data.colors.assign(6, color);
+        const auto geometry = scene.add(data);
+        m_parts.push_back({geometry, {0,0}, {1,1}, 0});
+    };
+    waist(-0.2145f, 0.2145f, -0.23f, -0.44f, dark);
+    waist(-0.21f, 0.21f, -0.23f, -0.445f, blue);
     part(shirt, -0.22f, 0.06f, 0.105f, 0.12f, -0.25f); // maniche
     part(shirt,  0.22f, 0.06f, 0.105f, 0.12f,  0.25f);
-    part(shirt, 0.0f, 0.015f, 0.17f, 0.27f);            // busto
-    part(shirt, -0.035f, -0.15f, 0.265f, 0.225f);       // pancia
-    part(skin, 0.0f, 0.24f, 0.105f, 0.11f);            // collo
-    part(skin, 0.0f, 0.39f, 0.145f, 0.235f);           // testa allungata
+    // Busto e pancia hanno un unico contorno: prima entrambe le sagome,
+    // poi entrambi i riempimenti, evitando una cucitura ovale in mezzo.
+    part(outline, 0.0f, 0.015f, 0.1745f, 0.2745f);
+    part(outline, -0.035f, -0.15f, 0.2695f, 0.2295f);
+    m_parts.push_back({shirt, {0.0f, 0.015f}, {0.17f, 0.27f}, 0});
+    m_parts.push_back({shirt, {-0.035f, -0.15f}, {0.265f, 0.225f}, 0});
+    // Lo stesso procedimento unisce testa e collo.
+    part(outline, 0.0f, 0.24f, 0.1095f, 0.1145f);
+    part(outline, 0.0f, 0.39f, 0.1495f, 0.2395f);
+    m_parts.push_back({skin, {0.0f, 0.24f}, {0.105f, 0.11f}, 0});
+    m_parts.push_back({skin, {0.0f, 0.39f}, {0.145f, 0.235f}, 0});
     part(skin, 0.14f, 0.32f, 0.05f, 0.065f);           // orecchio
     part(muzzle, -0.055f, 0.305f, 0.15f, 0.085f);      // muso
-    part(outline, -0.075f, 0.285f, 0.075f, 0.008f, -0.08f); // bocca
+    part(outline, -0.075f, 0.285f, 0.075f, 0.004f, -0.08f); // bocca
     part(skin, -0.16f, 0.385f, 0.075f, 0.042f);       // naso
     part(shirt, -0.085f, 0.43f, 0.065f, 0.052f);      // occhi
     part(shirt,  0.025f, 0.43f, 0.065f, 0.052f);
@@ -64,15 +87,23 @@ void Homer::create(Scene& scene)
     auto hairSegment = [&](glm::vec2 a, glm::vec2 b) {
         const glm::vec2 delta = b - a; // delta è il vettore che va dal primo punto al secondo
         const glm::vec2 middle = (a + b) * 0.5f; // middle è il punto a metà di un segmento
-        part(outline, middle.x, middle.y, 0.006f, glm::length(delta) * 0.5f,
+        part(outline, middle.x, middle.y, 0.003f, glm::length(delta) * 0.5f,
             std::atan2(-delta.x, delta.y)); // creiamo una parte scusa, centrata nel punto medio, molto stretta, di lunghezza quanto serve per collegare il primo e il secondo punto
     };
     hairSegment({0.085f, 0.35f}, {0.085f, 0.41f});
     hairSegment({0.085f, 0.41f}, {0.106f, 0.385f});
     hairSegment({0.106f, 0.385f}, {0.127f, 0.41f});
     hairSegment({0.127f, 0.41f}, {0.127f, 0.35f});
-    part(outline, -0.02f, 0.625f, 0.065f, 0.012f, 0.35f); // capelli
-    part(outline, 0.035f, 0.64f, 0.065f, 0.012f, -0.35f);
+    // Due archetti sottili al posto degli ovali pieni sulla testa.
+    for (float cx : {-0.025f, 0.025f}) {
+        for (int i = 0; i < 20; ++i) {
+            float a = 3.14159265f * i / 20;
+            float b = 3.14159265f * (i + 1) / 20;
+            hairSegment({cx + 0.055f*std::cos(a), 0.606f + 0.055f*std::sin(a)},
+                        {cx + 0.055f*std::cos(b), 0.606f + 0.055f*std::sin(b)});
+        }
+    }
+
 }
 
 void Homer::draw(const Scene& scene, const Renderer& renderer, const Shader& shader, const glm::mat4& transform) const

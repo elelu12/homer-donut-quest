@@ -31,24 +31,24 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel><SDLCheck>true</SDLCheck><PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions><ConformanceMode>true</ConformanceMode><LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)dependencies_GL_GLFW\include;$(ProjectDir)dependencies_GL_GLFW\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir);$(ProjectDir)dependencies_GL_GLFW\include;$(ProjectDir)dependencies_GL_GLFW\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link><SubSystem>Console</SubSystem><GenerateDebugInformation>true</GenerateDebugInformation><AdditionalLibraryDirectories>$(ProjectDir)dependencies_GL_GLFW\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories><AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies></Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel><SDLCheck>true</SDLCheck><PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions><ConformanceMode>true</ConformanceMode><LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)dependencies_GL_GLFW\include;$(ProjectDir)dependencies_GL_GLFW\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir);$(ProjectDir)dependencies_GL_GLFW\include;$(ProjectDir)dependencies_GL_GLFW\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link><SubSystem>Console</SubSystem><GenerateDebugInformation>true</GenerateDebugInformation><AdditionalLibraryDirectories>$(ProjectDir)dependencies_GL_GLFW\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories><AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies></Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" /><ClCompile Include="ShapeGenerator.cpp" /><ClCompile Include="Geometry.cpp" /><ClCompile Include="Scene.cpp" /><ClCompile Include="Renderer.cpp" /><ClCompile Include="Gui.cpp" /><ClCompile Include="Input.cpp" /><ClCompile Include="Shader.cpp" /><ClCompile Include="ShaderMaker.cpp" />
+    <ClCompile Include="src\main.cpp" /><ClCompile Include="src\ShapeGenerator.cpp" /><ClCompile Include="src\Geometry.cpp" /><ClCompile Include="src\Scene.cpp" /><ClCompile Include="src\Renderer.cpp" /><ClCompile Include="src\Gui.cpp" /><ClCompile Include="src\Input.cpp" /><ClCompile Include="src\Shader.cpp" /><ClCompile Include="src\ShaderMaker.cpp" />
     <ClCompile Include="dependencies_GL_GLFW\glad.c" />
     <ClCompile Include="dependencies_GL_GLFW\ImGui\imgui.cpp" /><ClCompile Include="dependencies_GL_GLFW\ImGui\imgui_demo.cpp" /><ClCompile Include="dependencies_GL_GLFW\ImGui\imgui_draw.cpp" /><ClCompile Include="dependencies_GL_GLFW\ImGui\imgui_impl_glfw.cpp" /><ClCompile Include="dependencies_GL_GLFW\ImGui\imgui_impl_opengl3.cpp" /><ClCompile Include="dependencies_GL_GLFW\ImGui\imgui_tables.cpp" /><ClCompile Include="dependencies_GL_GLFW\ImGui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MeshData.h" /><ClInclude Include="ShapeGenerator.h" /><ClInclude Include="Geometry.h" /><ClInclude Include="Scene.h" /><ClInclude Include="Renderer.h" /><ClInclude Include="Gui.h" /><ClInclude Include="Input.h" /><ClInclude Include="Shader.h" /><ClInclude Include="ShaderMaker.h" />
+    <ClInclude Include="include\MeshData.h" /><ClInclude Include="include\ShapeGenerator.h" /><ClInclude Include="include\Geometry.h" /><ClInclude Include="include\Scene.h" /><ClInclude Include="include\Renderer.h" /><ClInclude Include="include\Gui.h" /><ClInclude Include="include\Input.h" /><ClInclude Include="include\Shader.h" /><ClInclude Include="include\ShaderMaker.h" />
     <ClInclude Include="dependencies_GL_GLFW\include\glad\glad.h" /><ClInclude Include="dependencies_GL_GLFW\include\KHR\khrplatform.h" /><ClInclude Include="dependencies_GL_GLFW\include\GLFW\glfw3.h" /><ClInclude Include="dependencies_GL_GLFW\include\GLFW\glfw3native.h" />
     <ClInclude Include="dependencies_GL_GLFW\ImGui\imconfig.h" /><ClInclude Include="dependencies_GL_GLFW\ImGui\imgui.h" /><ClInclude Include="dependencies_GL_GLFW\ImGui\imgui_impl_glfw.h" /><ClInclude Include="dependencies_GL_GLFW\ImGui\imgui_impl_opengl3.h" /><ClInclude Include="dependencies_GL_GLFW\ImGui\imgui_impl_opengl3_loader.h" /><ClInclude Include="dependencies_GL_GLFW\ImGui\imgui_internal.h" /><ClInclude Include="dependencies_GL_GLFW\ImGui\imstb_rectpack.h" /><ClInclude Include="dependencies_GL_GLFW\ImGui\imstb_textedit.h" /><ClInclude Include="dependencies_GL_GLFW\ImGui\imstb_truetype.h" />
   </ItemGroup>
@@ -57,4 +57,14 @@
     <None Include="shader\vertexshaderC.glsl" /><None Include="shader\fragmentshaderC.glsl" /><None Include="README_PRIMA_DI_INIZIARE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ItemGroup><ClCompile Include="src\Homer.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\Player.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\Donut.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\Beer.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\Game.cpp" /></ItemGroup>
+  <ItemGroup><ClInclude Include="include\Donut.h" /></ItemGroup>
+  <ItemGroup><ClInclude Include="include\Player.h" /></ItemGroup>
+  <ItemGroup><ClInclude Include="include\Beer.h" /></ItemGroup>
+  <ItemGroup><ClInclude Include="include\Game.h" /></ItemGroup>
+  <ItemGroup><ClInclude Include="include\Homer.h" /></ItemGroup>
 </Project>

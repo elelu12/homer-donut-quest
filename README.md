@@ -1,3 +1,15 @@
+## Organizzazione delle cartelle
+
+- `src/`: implementazioni C++, incluso `main.cpp`.
+- `include/`: dichiarazioni delle classi e strutture (`.h`).
+- `shader/`: programmi GLSL.
+- `dependencies_GL_GLFW/`: librerie del laboratorio.
+- `build/`: file generati dalla compilazione, esclusi da Git.
+
+Compilare e avviare dalla cartella principale con `make run`.
+I percorsi del progetto Visual Studio sono aggiornati, ma la sua configurazione
+conserva i segnaposto del template e deve ancora essere completata e provata su Windows.
+
 # Interactive 2D World — base del progetto
 
 Repository locale inizializzata a partire da `laboratori/Laboratorio 8 Ottobre 2026-20261008/OpenGL_CLASSI`.
@@ -29,3 +41,13 @@ La proposta iniziale, i requisiti, la mappa delle modifiche e le questioni apert
 ## Prima versione di Homer
 
 `Homer.cpp` compone testa, corpo, arti e dettagli usando le ellissi di `ShapeGenerator`. Ogni parte riutilizza una geometria per colore e ha una matrice locale; una matrice comune permette di trasformare l’intero personaggio. Questa è una prima bozza statica: movimento, Hermite e meccaniche sono ancora da realizzare.
+
+## Movimento di Homer
+
+Frecce o WASD muovono Homer; Esc chiude la finestra. `Input` legge i tasti,
+`Player` conserva posizione e velocità e produce la matrice comune di Homer.
+Il movimento usa delta time, normalizza le diagonali e limita il personaggio ai bordi.
+Quando ImGui cattura la tastiera o la finestra perde il focus il movimento si ferma.
+La scena usa ancora coordinate da -1 a +1: il mantenimento delle proporzioni al
+ridimensionamento della finestra resta da implementare. Raccolta e animazione degli arti
+non sono ancora presenti.
