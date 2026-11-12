@@ -8,6 +8,7 @@
 #include <glm/glm.hpp>
 
 struct GLFWwindow;
+class Game;
 
 // ============================================================================
 // Gui
@@ -23,7 +24,7 @@ public:
     void beginFrame();
     // Definisce finestra, selettore colore e checkbox.
     void draw();
-    bool drawCollection(int collected, int total, bool hit, int score, bool beerCollected);
+    bool drawCollection(const Game& game);
     // Disegna la GUI sopra la scena OpenGL.
     void render();
     // Rilascia le risorse ImGui prima di distruggere il contesto.

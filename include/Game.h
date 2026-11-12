@@ -23,7 +23,12 @@ public:
     const Player& player() const { return m_player; }
     const std::vector<DonutInstance>& donuts() const { return m_donuts; }
     int collectedCount() const;
-    glm::vec2 broccoliPosition() const;
+    glm::vec2 broccoliPosition(int index = 0) const;
+    int obstacleCount() const { return 4; }
+    int lives() const { return m_lives; }
+    bool won() const { return m_won; }
+    bool gameOver() const { return m_lives == 0; }
+    glm::vec2 goalPosition() const { return {8.28f,-0.30f}; }
     float broccoliScale() const { return 0.14f; }
     glm::vec2 broccoliHalfSize() const { return glm::vec2(0.84f,0.90f)*broccoliScale(); }
     glm::vec2 beerPosition() const { return {8.5f,-0.60f}; }
@@ -35,6 +40,8 @@ public:
 
 
 private:
+    int m_lives = 3;
+    bool m_won = false;
     bool m_beerCollected = false;
     float m_time = 0;
     float m_hitTimer = 0;

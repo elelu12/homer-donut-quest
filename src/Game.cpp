@@ -10,6 +10,8 @@ Game::Game()
 
 void Game::reset()
 {
+    m_lives = 3;
+    m_won = false;
     m_beerCollected = false;
     m_time = 0;
     m_hitTimer = 0;
@@ -32,23 +34,30 @@ int Game::collectedCount() const
     return count;
 }
 
-glm::vec2 Game::broccoliPosition() const
+glm::vec2 Game::broccoliPosition(int index) const
 {
-    return {4.4f + 0.65f * std::sin(m_time * 1.2f), -0.35f};
+    const float centers[] = {2.4f,4.4f,6.2f,7.55f};
+    // Corsie alternate: si possono aggirare usando anche su/giu'.
+    float y = index%2 == 0 ? -0.30f : -0.78f;
+    return {centers[index] + 0.30f * std::sin(m_time * 1.2f + index), y};
 }
 
 void Game::update(glm::vec2 direction, float deltaTime)
 {
+    if (won() || gameOver()) return;
     m_time += deltaTime;
     m_hitTimer = std::max(0.0f, m_hitTimer-deltaTime);
     m_player.update(direction, deltaTime);
-    // Rettangoli allineati agli assi, dimensionati in coordinate di scena.
-    const glm::vec2 separation = glm::abs(m_player.position()-broccoliPosition());
-    const glm::vec2 reach = m_player.halfSize()+broccoliHalfSize();
-    if (m_hitTimer <= 0 && separation.x <= reach.x && separation.y <= reach.y) {
-        m_player = Player{};
-        m_hitTimer = 1.5f; // Feedback e breve protezione dopo il contatto.
-        return;          // Nessuna raccolta nello stesso frame della collisione.
+    // Un solo danno per contatto, anche se due ostacoli si sovrapponessero.
+    for (int i=0; i<obstacleCount(); ++i) {
+        const glm::vec2 separation = glm::abs(m_player.position()-broccoliPosition(i));
+        const glm::vec2 reach = m_player.halfSize()+broccoliHalfSize();
+        if (m_hitTimer <= 0 && separation.x <= reach.x && separation.y <= reach.y) {
+            --m_lives;
+            if (!gameOver()) m_player = Player{};
+            m_hitTimer = 1.5f;
+            return;
+        }
     }
     const glm::vec2 halfSize = m_player.halfSize();
     const glm::vec2 center = m_player.position();
@@ -66,4 +75,8 @@ void Game::update(glm::vec2 direction, float deltaTime)
         if (glm::dot(distance,distance) <= donut.radius*donut.radius)
             donut.collected = true;
     }
+    const glm::vec2 goalDistance = glm::abs(center-goalPosition());
+    if (collectedCount() == totalCount() && goalDistance.x < 0.18f && goalDistance.y < 0.13f)
+        m_won = true;
+
 }

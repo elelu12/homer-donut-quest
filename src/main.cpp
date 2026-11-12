@@ -170,7 +170,7 @@ int main()
         if (!ImGui::GetIO().WantCaptureKeyboard && glfwGetWindowAttrib(window, GLFW_FOCUSED))
             direction = Input::movementDirection(window);
         game.update(direction, deltaTime);
-        if (gui.drawCollection(game.collectedCount(), game.totalCount(), game.hitFeedback(), game.score(), game.beerCollected())) game.reset();
+        if (gui.drawCollection(game)) game.reset();
 
         int framebufferWidth, framebufferHeight;
         glfwGetFramebufferSize(window, &framebufferWidth, &framebufferHeight);
@@ -200,9 +200,11 @@ int main()
             beer.draw(scene, renderer, shader, beerModel);
         }
 
-        glm::mat4 broccoliModel = glm::translate(glm::mat4(1), glm::vec3(game.broccoliPosition(),0));
-        broccoliModel = glm::scale(broccoliModel, glm::vec3(game.broccoliScale(),game.broccoliScale(),1));
-        broccoli.draw(scene, renderer, shader, broccoliModel);
+        for (int i=0; i<game.obstacleCount(); ++i) {
+            glm::mat4 broccoliModel = glm::translate(glm::mat4(1), glm::vec3(game.broccoliPosition(i),0));
+            broccoliModel = glm::scale(broccoliModel, glm::vec3(game.broccoliScale(),game.broccoliScale(),1));
+            broccoli.draw(scene, renderer, shader, broccoliModel);
+        }
 
         // ImGui va disegnata in modalita' fill.
         renderer.setWireframe(false);
