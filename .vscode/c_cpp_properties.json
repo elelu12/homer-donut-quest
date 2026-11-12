@@ -1,0 +1,19 @@
+{
+  "configurations": [
+    {
+      "name": "Mac",
+      "includePath": [
+        "${workspaceFolder}/include",
+        "${workspaceFolder}/dependencies_GL_GLFW/include",
+        "${workspaceFolder}/dependencies_GL_GLFW/ImGui",
+        "/opt/homebrew/include",
+        "/opt/homebrew/opt/glfw/include"
+      ],
+      "compilerPath": "/usr/bin/clang++",
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "macos-clang-arm64"
+    }
+  ],
+  "version": 4
+}

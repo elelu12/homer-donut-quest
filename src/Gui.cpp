@@ -68,14 +68,17 @@ void Gui::shutdown()
 }
 
 // Restituisce l'azione richiesta; il pannello non modifica direttamente il gioco.
-bool Gui::drawCollection(int collected)
+bool Gui::drawCollection(int collected, int total)
 {
     ImGui::SetNextWindowPos(ImVec2(12, 12), ImGuiCond_FirstUseEver);
     ImGui::Begin("Homer - raccolta", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-    ImGui::Text("Ciambelle: %d / 1", collected);
+    ImGui::Text("Ciambelle: %d / %d", collected, total);
     ImGui::Text("Punti: %d", collected);
     ImGui::TextUnformatted("Muoviti con WASD o le frecce");
-    if (collected) ImGui::TextUnformatted("Ciambella raccolta!");
+    if (total > 0 && collected == total)
+        ImGui::TextUnformatted("Tutte raccolte! Obiettivo completato.");
+    else if (collected > 0)
+        ImGui::TextUnformatted("Continua a cercare le ciambelle!");
     bool reset = ImGui::Button("Ricomincia");
     ImGui::End();
     return reset;

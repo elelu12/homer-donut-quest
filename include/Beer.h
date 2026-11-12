@@ -10,8 +10,8 @@ class Beer
 {
 public:
     void create(Scene& scene);
-    void draw(const Scene& scene, const Renderer& renderer,
-              const Shader& shader, const glm::mat4& transform) const;
+    void draw(const Scene& scene, const Renderer& renderer, const Shader& shader, const glm::mat4& transform) const; // responsabile del rendering della lattina
+
 private:
     std::size_t m_geometry = 0;
 };

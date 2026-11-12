@@ -22,12 +22,19 @@
 #include "Beer.h"
 #include <glm/gtc/matrix_transform.hpp>
 
+//Immagina di voler allestire una mostra d'arte:
+//• OpenGL è il pittore: sa solo dipingere su una tela, ma non sa dove procurarsi la tela e non sa comunicare con il pubblico.
+//• GLFW è il proprietario della galleria: costruisce la stanza (la finestra), accende le luci, apre la porta e ti dice se entra qualcuno (mouse e tastiera).
+//• GLAD è il fornitore: va a prendere nella cassetta degli attrezzi della scheda video tutti i pennelli e i tubetti di colore giusti (le funzioni OpenGL) e li mette in mano al pittore.
+
 // Avvio del programma. Le risorse OpenGL vanno create solo dopo che esiste un contesto corrente.
 int main()
 {
     // ========================================================================
-    // 1. GLFW
+    // 1. GLFW: libreria che parla con il sistema operativo
     // ========================================================================
+    // GLFW graphics Library framework 
+    // gestisce la finestra e l'input
 
     if (!/* Inizializza GLFW prima di creare la finestra. */
     glfwInit())
@@ -64,11 +71,13 @@ int main()
 
     glfwMakeContextCurrent(window);
 
+    // ricorda che GLFW si occupa anche di ascoltare tastiera e mouse
 
     // ========================================================================
     // 3. GLAD
     // ========================================================================
 
+    // OpenGL non è una libreria con codice già pronto dentro l'eseguibile ma uno standard implementato direttamente dal driver della singola scheda video
     if (!/* Carica le funzioni OpenGL dopo avere reso corrente il contesto. */
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -80,9 +89,8 @@ int main()
 
     glViewport(0, 0, 800, 800);
 
-
     // ========================================================================
-    // 4. CALLBACK
+    // 4. CALLBACK: è una funzione che tu scrivi, ma che passi a una libreria esterna (in questo caso GLFW)
     // ========================================================================
 
     glfwSetKeyCallback(window, Input::keyCallback);
@@ -153,7 +161,7 @@ int main()
         if (!ImGui::GetIO().WantCaptureKeyboard && glfwGetWindowAttrib(window, GLFW_FOCUSED))
             direction = Input::movementDirection(window);
         game.update(direction, deltaTime);
-        if (gui.drawCollection(game.collectedCount())) game.reset();
+        if (gui.drawCollection(game.collectedCount(), game.totalCount())) game.reset();
 
         renderer.beginFrame(gui.clearColor());
         renderer.setWireframe(gui.wireframe());
@@ -161,9 +169,12 @@ int main()
         shader.use();
         /* Il Renderer visita tutte le Geometry e ne richiama draw(). */
     homer.draw(scene, renderer, shader, game.player().modelMatrix());
-        if (game.donutVisible()) {
-            glm::mat4 donutModel = glm::translate(glm::mat4(1.0f), glm::vec3(game.donutPosition(), 0));
-            donutModel = glm::scale(donutModel, glm::vec3(game.donutRadius(), game.donutRadius(), 1));
+        // La stessa mesh viene disegnata per ogni istanza ancora presente.
+        for (const DonutInstance& instance : game.donuts()) {
+            if (instance.collected) continue;
+            glm::mat4 donutModel = glm::translate(glm::mat4(1.0f), glm::vec3(instance.position, 0));
+            donutModel = glm::rotate(donutModel, instance.angle, glm::vec3(0, 0, 1));
+            donutModel = glm::scale(donutModel, glm::vec3(instance.radius, instance.radius, 1));
             donut.draw(scene, renderer, shader, donutModel);
         }
         glm::mat4 beerModel = glm::translate(glm::mat4(1.0f), glm::vec3(0.65f, -0.30f, 0));
