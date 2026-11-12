@@ -36,4 +36,12 @@
   <ItemGroup><ClInclude Include="include\Beer.h"><Filter>Header Files</Filter></ClInclude></ItemGroup>
   <ItemGroup><ClInclude Include="include\Game.h"><Filter>Header Files</Filter></ClInclude></ItemGroup>
   <ItemGroup><ClInclude Include="include\Homer.h"><Filter>Header Files</Filter></ClInclude></ItemGroup>
+<ItemGroup><ClCompile Include="src\Broccoli.cpp"><Filter>Source Files</Filter></ClCompile></ItemGroup>
+<ItemGroup><ClCompile Include="src\Camera.cpp"><Filter>Source Files</Filter></ClCompile></ItemGroup>
+<ItemGroup><ClCompile Include="src\Landscape.cpp"><Filter>Source Files</Filter></ClCompile></ItemGroup>
+<ItemGroup><ClInclude Include="include\Hermite.h"><Filter>Header Files</Filter></ClInclude></ItemGroup>
+<ItemGroup><ClInclude Include="include\Landscape.h"><Filter>Header Files</Filter></ClInclude></ItemGroup>
+<ItemGroup><ClInclude Include="include\Camera.h"><Filter>Header Files</Filter></ClInclude></ItemGroup>
+<ItemGroup><ClInclude Include="include\Broccoli.h"><Filter>Header Files</Filter></ClInclude></ItemGroup>
+<ItemGroup><ClInclude Include="include\World.h"><Filter>Header Files</Filter></ClInclude></ItemGroup>
 </Project>

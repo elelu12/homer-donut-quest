@@ -51,3 +51,14 @@ Quando ImGui cattura la tastiera o la finestra perde il focus il movimento si fe
 La scena usa ancora coordinate da -1 a +1: il mantenimento delle proporzioni al
 ridimensionamento della finestra resta da implementare. Raccolta e animazione degli arti
 non sono ancora presenti.
+
+## Percorso a scorrimento laterale
+
+Il mondo va da x=0 a x=10. Homer cammina sulla strada con frecce o WASD;
+la camera lo segue orizzontalmente e si ferma ai confini. `Camera` calcola vista
+ e proiezione ortografica rispettando le proporzioni della finestra.
+`Landscape` costruisce le prime facciate stilizzate della casa e di Moe's.
+Le cinque ciambelle e la Duff sono distribuite lungo la strada; il broccolo
+pattuglia la zona centrale. Le collisioni usano coordinate del mondo, non dello schermo.
+Ricomincia ripristina anche la camera attraverso la posizione iniziale del giocatore.
+Il cielo è ancora un colore uniforme: shader dedicato e camminata animata restano da aggiungere.

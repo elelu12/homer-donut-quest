@@ -10,7 +10,7 @@ public:
     glm::vec2 position() const { return m_position; }
     glm::vec2 halfSize() const { return glm::vec2(0.40f, 0.73f) * m_scale; }
 private:
-    glm::vec2 m_position{-0.45f, -0.30f};
-    float m_scale = 0.42f;
+    glm::vec2 m_position{0.60f, -0.55f};
+    float m_scale = 0.30f;
     float m_speed = 0.75f; // Unità di scena al secondo.
 };

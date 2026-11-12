@@ -16,11 +16,11 @@ void Game::reset()
     m_player = Player{};
     // Cinque stati indipendenti; nessuna copia dei vertici della mesh.
     m_donuts = {
-        {{-0.72f, -0.70f}, 0.105f,  0.15f, false},
-        {{-0.10f, -0.65f}, 0.115f, -0.35f, false},
-        {{ 0.55f, -0.72f}, 0.105f,  0.60f, false},
-        {{ 0.60f,  0.45f}, 0.120f, -0.20f, false},
-        {{ 0.00f,  0.65f}, 0.110f,  0.40f, false}
+        {{1.5f,-0.55f},0.10f,0.15f,false},
+        {{3.3f,-0.68f},0.10f,-0.35f,false},
+        {{5.0f,-0.35f},0.10f,0.60f,false},
+        {{7.0f,-0.65f},0.10f,-0.20f,false},
+        {{9.1f,-0.45f},0.10f,0.40f,false}
     };
 }
 
@@ -34,7 +34,7 @@ int Game::collectedCount() const
 
 glm::vec2 Game::broccoliPosition() const
 {
-    return {0.40f * std::sin(m_time * 1.2f), 0.05f};
+    return {4.4f + 0.65f * std::sin(m_time * 1.2f), -0.35f};
 }
 
 void Game::update(glm::vec2 direction, float deltaTime)

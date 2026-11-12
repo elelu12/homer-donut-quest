@@ -26,7 +26,7 @@ public:
     glm::vec2 broccoliPosition() const;
     float broccoliScale() const { return 0.14f; }
     glm::vec2 broccoliHalfSize() const { return glm::vec2(0.84f,0.90f)*broccoliScale(); }
-    glm::vec2 beerPosition() const { return {0.65f,-0.30f}; }
+    glm::vec2 beerPosition() const { return {8.5f,-0.60f}; }
     glm::vec2 beerScale() const { return {0.20f,0.183f}; }
     bool beerCollected() const { return m_beerCollected; }
     int score() const { return collectedCount() + (m_beerCollected ? 2 : 0); }

@@ -21,6 +21,9 @@
 #include "Donut.h"
 #include "Beer.h"
 #include "Broccoli.h"
+#include "Camera.h"
+#include "Landscape.h"
+#include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 //Immagina di voler allestire una mostra d'arte:
@@ -131,6 +134,9 @@ int main()
 
     // Personaggio composto: le parti condividono geometrie e usano matrici locali.
     Game game;
+    Camera camera;
+    Landscape landscape;
+    landscape.create(scene);
     Homer homer;
     homer.create(scene);
     Donut donut;
@@ -166,10 +172,18 @@ int main()
         game.update(direction, deltaTime);
         if (gui.drawCollection(game.collectedCount(), game.totalCount(), game.hitFeedback(), game.score(), game.beerCollected())) game.reset();
 
+        int framebufferWidth, framebufferHeight;
+        glfwGetFramebufferSize(window, &framebufferWidth, &framebufferHeight);
+        camera.update(game.player().position().x, framebufferWidth, framebufferHeight);
         renderer.beginFrame(gui.clearColor());
         renderer.setWireframe(gui.wireframe());
 
         shader.use();
+        const glm::mat4 view = camera.view();
+        const glm::mat4 projection = camera.projection();
+        glUniformMatrix4fv(glGetUniformLocation(shader.id(),"view"),1,GL_FALSE,glm::value_ptr(view));
+        glUniformMatrix4fv(glGetUniformLocation(shader.id(),"projection"),1,GL_FALSE,glm::value_ptr(projection));
+        landscape.draw(scene, renderer, shader);
         /* Il Renderer visita tutte le Geometry e ne richiama draw(). */
     homer.draw(scene, renderer, shader, game.player().modelMatrix());
         // La stessa mesh viene disegnata per ogni istanza ancora presente.

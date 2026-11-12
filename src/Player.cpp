@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "World.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <algorithm>
 
@@ -12,8 +13,8 @@ void Player::update(glm::vec2 direction, float deltaTime)
     // Ingombro conservativo dell'intero Homer in coordinate locali,
     // inclusi mani, scarpe e capelli. La scena corrente va da -1 a +1.
     const glm::vec2 halfSize = this->halfSize();
-    m_position.x = std::clamp(m_position.x, -1.0f + halfSize.x, 1.0f - halfSize.x);
-    m_position.y = std::clamp(m_position.y, -1.0f + halfSize.y, 1.0f - halfSize.y);
+    m_position.x = std::clamp(m_position.x, World::left + halfSize.x, World::right - halfSize.x);
+    m_position.y = std::clamp(m_position.y, World::laneBottom, World::laneTop);
 }
 
 glm::mat4 Player::modelMatrix() const
